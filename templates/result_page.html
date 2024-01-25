@@ -1,0 +1,82 @@
+<!-- results_page.html -->
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Results Page</title>
+    <style>
+        body {
+            background-color: #f0f0f0;
+            font-family: Arial, sans-serif;
+            margin: 20px;
+        }
+
+        .container {
+            max-width: 800px;
+            margin: 0 auto;
+            background-color: #ffffff;
+            padding: 20px;
+            border-radius: 8px;
+            box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+        }
+
+        #result-container {
+            margin-top: 20px;
+        }
+
+        #show-result-btn {
+            background-color: #4CAF50;
+            color: white;
+            border: none;
+            padding: 10px 20px;
+            text-align: center;
+            text-decoration: none;
+            display: inline-block;
+            font-size: 16px;
+            margin-top: 20px;
+            cursor: pointer;
+            border-radius: 5px;
+        }
+
+        #result-text {
+            display: none;
+            margin-top: 20px;
+            padding: 10px;
+            background-color: #dff0d8;
+            border: 1px solid #d6e9c6;
+            border-radius: 4px;
+            white-space: pre-wrap;
+        }
+    </style>
+</head>
+<body>
+
+<div class="container">
+    <h1>Results Page</h1>
+    <button id="show-result-btn" onclick="showResults()">Show Results</button>
+    <div id="result-container">
+        <pre id="result-text"></pre>
+    </div>
+</div>
+
+<script>
+    function showResults() {
+        const resultTextDiv = document.getElementById('result-text');
+        const resultText = decodeURIComponent('{{ result_text | safe }}');
+
+        console.log('Received result_text:', resultText);
+
+        if (resultText === 'undefined') {
+            console.error('result_text is undefined');
+            resultTextDiv.textContent = 'Error: Undefined result_text.';
+        } else {
+            console.log('Displaying result_text:', resultText);
+            resultTextDiv.innerHTML = resultText;  // Use innerHTML to render HTML content
+        }
+
+        resultTextDiv.style.display = 'block';
+    }
+</script>
+</body>
+</html>

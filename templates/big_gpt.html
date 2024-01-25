@@ -1,0 +1,62 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+     <!-- jQuery -->
+    <script src="https://code.jquery.com/jquery-3.3.1.min.js"></script>
+    <!-- Bootstrap JS -->
+    <script src="https://cdn.jsdelivr.net/npm/popper.js@2.11.6/dist/umd/popper.min.js" integrity="sha384-f7sEE+ttRFD9QV7uUhPLpxXweP1ndjYZIzR8QE8vweM+xZ5dQIH4+uzUeb1d3QV3" crossorigin="anonymous"></script>
+    <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/js/bootstrap.min.js" integrity="sha384-JjSmVgyd0p3pXB1rRibZUAYoIIy6OrQ6VrjIEaFf/nJGzIxFDsf4x0xIM+B07jRM" crossorigin="anonymous"></script>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Interactive Web App</title>
+    <!-- Bootstrap CSS -->
+    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/css/bootstrap.min.css" integrity="sha384-ggOyR0iXCbMQv3Xipma34MD+dH/1fQ784/j6cY/iJTQUOhcWr7x9JvoRxT2MZw1T" crossorigin="anonymous">
+    <style>
+        /* Add your existing CSS styles here */
+    </style>
+</head>
+<body>
+
+    <div id="app-container">
+        <h1 class="mb-4" style="color: Tomato;">Big GPT</h1>
+        <input type="text" id="project" class="form-control mb-4" placeholder="Type your project name...">
+        <input type="text" id="dataset" class="form-control mb-4" placeholder="Type your dataset name...">
+        <input type="text" id="table" class="form-control mb-4" placeholder="Type your table name...">
+        <button onclick="getAnswer()" id="get-answer-btn" class="btn btn-success mb-4">To Infinity and Beyond</button>
+        <div id="answer" class="bg-success text-white rounded"></div>
+        <!-- GIFs on the side -->
+        <img id="gif1" class="side-gif" src="https://media.giphy.com/media/140ObFj9MRjRIc/giphy.gif" alt="GIF1">
+        <img id="gif2" class="side-gif" src="https://media.giphy.com/media/13pT5ZMDTKiKJO/giphy.gif" alt="GIF2">
+    </div>
+
+    <script>
+        function getAnswer() {
+            const projectInput = $('#project');
+            const datasetInput = $('#dataset');
+            const tableInput = $('#table');
+            const answerDiv = $('#answer');
+    
+            const project = projectInput.val();
+            const dataset = datasetInput.val();
+            const table = tableInput.val();
+    
+            // Make a request to the Flask server
+            $.ajax({
+                url: '/generate',
+                method: 'POST',
+                data: {
+                    project: project,
+                    dataset: dataset,
+                    table: table
+                },
+                success: function (data) {
+                    // Redirect to a new page with the query parameters
+                    window.location.href = `/show_results?result_text=${data.result_text}`;
+                },
+                error: function () {
+                    // Handle error if needed
+                    answerDiv.html('<p>Error occurred while fetching the result.</p>');
+                }
+            });
+        }
+    </script>
